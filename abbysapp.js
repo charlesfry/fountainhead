@@ -32,7 +32,6 @@ const LEAVE_TYPES = [
   ["Mothman Threatened to Leak our Chat History",                                                              "Submit. Zoomer Sexuality is a Horrifying Thing."],
   ["In a Fistfight with Gage (Currently Winning)",                                                             "Submit. Do It You Won't No Balls."],
   ["In a Drinking Competition with Tyler (Everyone's Winning)",                                                "Submit. When Everyone Gets Drunk, Everyone Wins."],
-  ["I'm Afraid of Americans",                                                                                  "Submit. I'm Afraid of the World."],
   ["Angel consumed Tylenol when she was pregnant. A lot of Tylenol. Like, an Unreasonable Amount of Tylenol.", "Submit. Stay away from Sonic the Hedgehog."],
   ["Other (probably stupid reason)",                                                                           "Submit. Did All the Other Reasons Really Not Apply?"],
 ];
