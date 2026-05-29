@@ -7,39 +7,51 @@ const today = new Date().toISOString().split("T")[0];
 document.getElementById("date-start").value = today;
 document.getElementById("date-end").value = today;
 
-// ── Button text per leave type ──
-const BUTTON_LABELS = {
-  "Going a-Trenting":                                                                            "Submit",
-  "Dying (of AIDS or Whatever)":                                                                 "Submit. Still No",
-  "I Just Sat Down":                                                                             "Submit. Get Up",
-  "Trent and/or Ollie is Here":                                                                  "Submit. Ignore Them",
-  "Need More Milk":                                                                              "Submit. Drink Water",
-  "Soren Ate a Battery":                                                                         "Submit. That's on You",
-  "Ollie Ate a Battery":                                                                         "Submit. Dammit, Ollie",
-  "Getting Drunk at Bowser's with my Aunt":                                                      "Submit. Get me a Long-Island Iced Tea",
-  "Explosive Diarrhea":                                                                          "Submit. Please Don't",
-  "Piercing Someone's Weiner Today":                                                             "Submit. Don't Miss",
-  "Drawing a Mushroom":                                                                          "Submit. Is it a tracing?",
-  "I've Committed Some Light Treason":                                                           "Submit. Legal fees not included",
-  "Go Fuck Yourself, John (insert giggle here)":                                                 "Submit. Tell him he's not your real dad.",
-  "I Made Plans to be Somewhere in, Like, 3 Weeks and I Feel Overwhelmed by the Responsibility": "Submit. Absolteuly no sympathy",
-  "I Turned Myself into a Pickle":                                                               "That's the funnies shit I've ever seen",
-  "I'm on my period. Ha Ha Joke About Girl Parts This Site's Developer is so Clever":            "Submit. Ensure that you make it literally everyone else's problem.",
-  "I'm waiting for the Epstein Files":                                                           "Submit. It's not happening",
-  "In the Middle of a Highlander-Type Situation with all the other Abbys":                       "Submit. Beware pirates"
-  "Mothman Threatened to Leak our Chat History":                                                 "Submit. Spicy.",
-  "Fistfight with Gage (Currently Winning)":                                                     "Submit. Do it you won't no balls",
-  "Drinking Competition with Tyler (Everyone's Winning)":                                        "Submit. Never skip liver day",
-  "Other (probably stupid reason)":                                                              "Submit. Did all the other reasons really not apply?",
-};
+// ── Leave types: single source of truth ──
+// Each entry: [label, button text]
+const LEAVE_TYPES = [
+  ["Going a-Trenting",                                                                             "Submit. Answer is No."],
+  ["Dying (of AIDS or Whatever)",                                                                  "Submit. Still No"],
+  ["I Just Sat Down",                                                                              "Submit. Get Up"],
+  ["Trent and/or Ollie is Here",                                                                   "Submit. Ignore Them"],
+  ["Need More Milk",                                                                               "Submit. Drink Water"],
+  ["Soren Ate a Battery",                                                                          "Submit. Technically that Counts as 5-Hour Energy"],
+  ["Ollie Ate a Battery",                                                                          "Submit. Dammit, Ollie"],
+  ["Getting Drunk at Bowser's with my Aunt",                                                       "Submit. Get me a Long-Island Iced Tea"],
+  ["Explosive Diarrhea",                                                                           "Submit. Please Don't"],
+  ["Piercing Someone's Weiner Today",                                                              "Submit. Don't Miss"],
+  ["Drawing a Mushroom",                                                                           "Submit. Is it a tracing?"],
+  ["I've Committed Some Light Treason",                                                            "Submit. Legal fees not included"],
+  ["Go Fuck Yourself, John (insert giggle here)",                                                  "Submit. Tell him he's not your real dad."],
+  ["I Made Plans to be Somewhere in, Like, 3 Weeks and I Feel Overwhelmed by the Responsibility",  "Submit. Absolutely no sympathy"],
+  ["I Turned Myself into a Pickle",                                                                "That's the Funniest Shit I've Ever Seen"],
+  ["I'm on my period. Ha Ha Joke About Girl Parts This Site's Developer is so Clever",             "Submit. Ensure That You Make it Literally Everyone Else's Problem."],
+  ["I'm waiting for the Epstein Files",                                                            "Submit. It's Not Happening"],
+  ["In the Middle of a Highlander-Type Situation with all the other Abbys",                        "Submit. Beware Pirates"],
+  ["Mothman Threatened to Leak our Chat History",                                                  "Submit. Zoomer Sexuality is a Horrifying Thing."],
+  ["Fistfight with Gage (Currently Winning)",                                                      "Submit. Do It You Won't No Balls"],
+  ["Drinking Competition with Tyler (Everyone's Winning)",                                         "Submit. When Everyone Gets Drunk, Everyone Wins"],
+  ["Angel consumed Tylenol when she was pregnant. Like, a lot of it",                              "Submit. Stay away from Sonic the Hedgehog"],
+  ["Other (probably stupid reason)",                                                               "Submit. Did All the Other Reasons Really Not Apply?"],
+];
 
 const leaveTypeSelect = document.getElementById("leave-type");
 const submitBtn = document.getElementById("submit-btn");
 
+// Populate the select from LEAVE_TYPES
+LEAVE_TYPES.forEach(([label]) => {
+  const opt = document.createElement("option");
+  opt.value = label;
+  opt.textContent = label;
+  leaveTypeSelect.appendChild(opt);
+});
+
+const buttonLabelMap = Object.fromEntries(LEAVE_TYPES);
+
 leaveTypeSelect.addEventListener("change", () => {
   const val = leaveTypeSelect.value;
   submitBtn.disabled = val === "";
-  submitBtn.textContent = BUTTON_LABELS[val] || "Submit Request";
+  submitBtn.textContent = buttonLabelMap[val] || "Submit Request";
 });
 
 // ── Reason/Notes character countdown ──
