@@ -10,48 +10,115 @@ document.getElementById("date-end").value = today;
 // ── Leave types: single source of truth ──
 // Each entry: [label, button text]
 const LEAVE_TYPES = [
-  ["Going a-Trenting",                                                                             "Submit. Answer is No."],
-  ["Dying (of AIDS or Whatever)",                                                                  "Submit. Still No."],
-  ["I Just Sat Down",                                                                              "Submit. Get Up."],
-  ["Trent and/or Ollie is Here",                                                                   "Submit. Ignore Them."],
-  ["Need More Milk",                                                                               "Submit. Drink Water."],
-  ["Soren Ate a Battery",                                                                          "Submit. Technically that Counts as 5-Hour Energy."],
-  ["Ollie Ate a Battery",                                                                          "Submit. Dammit, Ollie."],
-  ["Getting Drunk at Bowser's with my Aunt",                                                       "Submit. Get me a Long-Island Iced Tea."],
-  ["Explosive Diarrhea",                                                                           "Submit. Please Don't."],
-  ["Piercing Someone's Weiner Today",                                                              "Submit. Don't Miss."],
-  ["Drawing a Mushroom",                                                                           "Submit. Is it a tracing?"],
-  ["I've Committed Some Light Treason",                                                            "Submit. Legal fees not included."],
-  ["Go Fuck Yourself, John (insert giggle here)",                                                  "Submit. Tell him he's not your real dad."],
-  ["I Made Plans to be Somewhere in, Like, 3 Weeks and I Feel Overwhelmed by the Responsibility",  "Submit. Absolutely no sympathy."],
-  ["I Turned Myself into a Pickle",                                                                "That's the Funniest Shit I've Ever Seen."],
-  ["I'm on my period. Ha Ha Joke About Girl Parts This Site's Developer is so Clever",             "Submit. Ensure That You Make it Literally Everyone Else's Problem."],
-  ["I'm waiting for the Epstein Files",                                                            "Submit. It's Not Happening."],
-  ["In the Middle of a Highlander-Type Situation with all the other Abbys",                        "Submit. Beware Pirates."],
-  ["Mothman Threatened to Leak our Chat History",                                                  "Submit. Zoomer Sexuality is a Horrifying Thing."],
-  ["In a Fistfight with Gage (Currently Winning)",                                                 "Submit. Do It You Won't No Balls."],
-  ["In a Drinking Competition with Tyler (Everyone's Winning)",                                    "Submit. When Everyone Gets Drunk, Everyone Wins."],
-  ["Angel consumed Tylenol when she was pregnant. A lot of Tylenol. Like, an Unreasonable Amount.","Submit. Stay away from Sonic the Hedgehog."],
-  ["Other (probably stupid reason)",                                                               "Submit. Did All the Other Reasons Really Not Apply?"],
+  ["Going a-Trenting",                                                                                         "Submit. Bad Excuse."],
+  ["Dying (of AIDS or Whatever)",                                                                              "Submit. I Think Chicken Soup Fixes That."],
+  ["I Just Sat Down",                                                                                          "Submit. Get Up."],
+  ["Trent and/or Ollie is Here",                                                                               "Submit. Ignore Them."],
+  ["Need More Milk",                                                                                           "Submit. Drink Water."],
+  ["Soren Ate a Battery",                                                                                      "Submit. Technically that Counts as 5-Hour Energy."],
+  ["Ollie Ate a Battery",                                                                                      "Submit. Dammit, Ollie."],
+  ["Getting Drunk at Bowser's with my Aunt",                                                                   "Submit. Get me a Long-Island Iced Tea."],
+  ["Explosive Diarrhea",                                                                                       "Submit. Please Don't."],
+  ["Piercing Someone's Weiner Today",                                                                          "Submit. Don't Miss."],
+  ["Drawing a Mushroom",                                                                                       "Submit. Is it a tracing?"],
+  ["I've Committed Some Light Treason",                                                                        "Submit. Legal fees not included."],
+  ["Go Fuck Yourself, John (insert giggle here)",                                                              "Submit. Tell him he's not your real dad."],
+  ["I Made Plans to be Somewhere in, Like, 3 Weeks and I Feel Overwhelmed by the Responsibility",              "Submit. Absolutely no sympathy."],
+  ["I Turned Myself into a Pickle",                                                                            "That's the Funniest Shit I've Ever Seen."],
+  ["I'm on my period. Ha Ha Joke About Girl Parts This Site's Developer is so Clever",                         "Submit. Ensure That You Make it Literally Everyone Else's Problem."],
+  ["I'm waiting for the Epstein Files",                                                                        "Submit. It's Not Happening."],
+  ["In the Middle of a Highlander-Type Situation with all the other Abbys",                                    "Submit. Beware Pirates."],
+  ["Mothman Threatened to Leak our Chat History",                                                              "Submit. Zoomer Sexuality is a Horrifying Thing."],
+  ["In a Fistfight with Gage (Currently Winning)",                                                             "Submit. Do It You Won't No Balls."],
+  ["In a Drinking Competition with Tyler (Everyone's Winning)",                                                "Submit. When Everyone Gets Drunk, Everyone Wins."],
+  ["Angel consumed Tylenol when she was pregnant. A lot of Tylenol. Like, an Unreasonable Amount of Tylenol.", "Submit. Stay away from Sonic the Hedgehog."],
+  ["Other (probably stupid reason)",                                                                           "Submit. Did All the Other Reasons Really Not Apply?"],
 ];
 
-const leaveTypeSelect = document.getElementById("leave-type");
-const submitBtn = document.getElementById("submit-btn");
-
-// Populate the select from LEAVE_TYPES
-LEAVE_TYPES.forEach(([label]) => {
-  const opt = document.createElement("option");
-  opt.value = label;
-  opt.textContent = label;
-  leaveTypeSelect.appendChild(opt);
-});
-
+const submitBtn   = document.getElementById("submit-btn");
+const agreeBox    = document.getElementById("agree");
 const buttonLabelMap = Object.fromEntries(LEAVE_TYPES);
 
-leaveTypeSelect.addEventListener("change", () => {
-  const val = leaveTypeSelect.value;
-  submitBtn.disabled = val === "";
-  submitBtn.textContent = buttonLabelMap[val] || "Submit Request";
+let selectedLeaveType = "";
+
+function updateSubmitState() {
+  submitBtn.disabled = !(selectedLeaveType && agreeBox.checked);
+}
+
+agreeBox.addEventListener("change", () => {
+  if (agreeBox.checked) document.getElementById("agree-badge").style.visibility = "hidden";
+  updateSubmitState();
+});
+
+// ── Custom select ──
+const csWrapper  = document.getElementById("leave-type-wrapper");
+const csDisplay  = document.getElementById("leave-type-display");
+const csList     = document.getElementById("leave-type-options");
+let csFocusedIdx = -1;
+
+LEAVE_TYPES.forEach(([label], i) => {
+  const li = document.createElement("li");
+  li.textContent = label;
+  li.setAttribute("role", "option");
+  li.addEventListener("mousedown", (e) => {
+    e.preventDefault(); // keep focus on wrapper
+    csSelect(label, i);
+    csClose();
+  });
+  csList.appendChild(li);
+});
+
+function csOpen() {
+  csWrapper.setAttribute("aria-expanded", "true");
+  csWrapper.classList.add("open");
+  if (csFocusedIdx >= 0) csList.children[csFocusedIdx].scrollIntoView({ block: "nearest" });
+}
+function csClose() {
+  csWrapper.setAttribute("aria-expanded", "false");
+  csWrapper.classList.remove("open");
+}
+function csFocus(idx) {
+  Array.from(csList.children).forEach(li => li.classList.remove("focused"));
+  csFocusedIdx = idx;
+  if (idx >= 0 && idx < csList.children.length) {
+    csList.children[idx].classList.add("focused");
+    csList.children[idx].scrollIntoView({ block: "nearest" });
+  }
+}
+function csSelect(label, idx) {
+  selectedLeaveType = label;
+  csDisplay.textContent = label;
+  csDisplay.classList.remove("placeholder");
+  document.querySelector("#leave-type-wrapper").closest(".form-group").querySelector(".required-badge").style.display = "none";
+  Array.from(csList.children).forEach(li => li.classList.remove("selected"));
+  csList.children[idx].classList.add("selected");
+  csFocusedIdx = idx;
+  submitBtn.textContent = buttonLabelMap[label] || "Submit Request";
+  updateSubmitState();
+}
+
+csWrapper.addEventListener("click", () => {
+  csWrapper.classList.contains("open") ? csClose() : csOpen();
+});
+csWrapper.addEventListener("blur", csClose);
+csWrapper.addEventListener("keydown", (e) => {
+  const isOpen = csWrapper.classList.contains("open");
+  const count  = csList.children.length;
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (!isOpen) csOpen();
+    csFocus(Math.min(csFocusedIdx + 1, count - 1));
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    if (!isOpen) csOpen();
+    csFocus(Math.max(csFocusedIdx - 1, 0));
+  } else if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    if (!isOpen) { csOpen(); }
+    else if (csFocusedIdx >= 0) { csSelect(LEAVE_TYPES[csFocusedIdx][0], csFocusedIdx); csClose(); }
+  } else if (e.key === "Escape") {
+    csClose();
+  }
 });
 
 // ── Reason/Notes character countdown ──
@@ -147,7 +214,7 @@ function randomDenialLabel() {
 function addToHistory() {
   const startVal = document.getElementById("date-start").value;
   const endVal   = document.getElementById("date-end").value;
-  const type     = leaveTypeSelect.value || "—";
+  const type     = selectedLeaveType || "—";
   const now      = new Date();
   const submitted = `${String(now.getMonth()+1).padStart(2,"0")}/${String(now.getDate()).padStart(2,"0")}/${now.getFullYear()}`;
 

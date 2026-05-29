@@ -106,10 +106,14 @@
           </div>
 
           <div class="form-group">
-            <label for="leave-type">Leave Type <span class="required-badge">* Required to submit</span></label>
-            <select id="leave-type">
-              <option value="">— Select —</option>
-            </select>
+            <label>Leave Type <span class="required-badge">* Required to submit</span></label>
+            <div class="custom-select" id="leave-type-wrapper" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+              <div class="custom-select-trigger">
+                <span id="leave-type-display" class="placeholder">— Select —</span>
+                <span class="custom-select-arrow">▾</span>
+              </div>
+              <ul class="custom-select-dropdown" id="leave-type-options" role="listbox"></ul>
+            </div>
           </div>
 
           <div class="form-group">
@@ -122,6 +126,7 @@
             <label>
               <input type="checkbox" id="agree" />
               I acknowledge that this request is subject to manager approval and company policy.
+              <span class="required-badge" id="agree-badge">* Required to submit</span>
             </label>
           </div>
 
