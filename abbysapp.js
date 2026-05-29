@@ -3,6 +3,13 @@ const today = new Date().toISOString().split("T")[0];
 document.getElementById("date-start").value = today;
 document.getElementById("date-end").value = today;
 
+// Enable submit only when a Leave Type is selected
+const leaveTypeSelect = document.getElementById("leave-type");
+const submitBtn = document.getElementById("submit-btn");
+leaveTypeSelect.addEventListener("change", () => {
+  submitBtn.disabled = leaveTypeSelect.value === "";
+});
+
 // Cycle through error responses on each submit
 const ERRORS = [
   cannotProcess,
