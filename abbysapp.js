@@ -188,8 +188,8 @@ function renderHistory() {
 
 document.getElementById("pto-form").addEventListener("submit", function (e) {
   e.preventDefault();
-  addToHistory();
   withSpinner(() => {
+    addToHistory();
     ERRORS[errorIndex % ERRORS.length]();
     errorIndex++;
   });
