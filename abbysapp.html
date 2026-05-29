@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abby's App — Time Off Request Portal</title>
+  <link rel="stylesheet" href="abbysapp.css" />
+</head>
+<body>
+
+  <!-- BSOD overlay (hidden by default) -->
+  <div id="bsod" class="bsod hidden">
+    <div class="bsod-content">
+      <div class="bsod-emoji">:(</div>
+      <h1>Your PC ran into a problem and needs to restart.</h1>
+      <p>We're just collecting some error info, and then we'll restart for you.</p>
+      <div class="bsod-progress">
+        <span id="bsod-pct">0</span>% complete
+      </div>
+      <p class="bsod-code">Stop code: <strong>TIME_OFF_NOT_AUTHORIZED</strong></p>
+      <button id="bsod-dismiss">Restart (dismiss)</button>
+    </div>
+  </div>
+
+  <!-- Maintenance overlay (hidden by default) -->
+  <div id="maintenance" class="maintenance hidden">
+    <div class="maintenance-content">
+      <div class="maintenance-icon">🔧</div>
+      <h2>Scheduled Maintenance</h2>
+      <p>We are sorry, this website is currently down for scheduled maintenance.</p>
+      <p class="maintenance-sub">We expect to be back online shortly. Please check back later.</p>
+      <button id="maintenance-dismiss">OK</button>
+    </div>
+  </div>
+
+  <!-- 404 overlay (hidden by default) -->
+  <div id="error404" class="error404 hidden">
+    <div class="error404-content">
+      <h1>404</h1>
+      <h2>Page Not Found</h2>
+      <p>The page you are looking for does not exist or has been moved.</p>
+      <button id="error404-dismiss">Go Back</button>
+    </div>
+  </div>
+
+  <!-- Denial notification (hidden by default) -->
+  <div id="denial-popup" class="popup hidden">
+    <div class="popup-content denial">
+      <div class="popup-icon">❌</div>
+      <h3>Request Status Update</h3>
+      <p>After careful review, your time off request has been <strong>DENIED</strong>.</p>
+      <p class="popup-sub">Please contact HR if you have questions. Have a productive day!</p>
+      <button id="denial-dismiss">OK</button>
+    </div>
+  </div>
+
+  <!-- Confirmation toast (hidden by default) -->
+  <div id="toast" class="toast hidden"></div>
+
+  <div class="app-wrapper">
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">📋</span>
+        <span>Abby's App</span>
+      </div>
+      <nav class="app-nav">
+        <span>Time Off Portal</span>
+        <span class="nav-user">Welcome, Employee #4821</span>
+      </nav>
+    </header>
+
+    <main class="app-main">
+      <div class="card">
+        <h2 class="card-title">Submit Time Off Request</h2>
+        <p class="card-subtitle">Please complete all fields. Requests must be submitted at least 2 weeks in advance.</p>
+
+        <form id="pto-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="emp-name">Employee Name</label>
+              <input type="text" id="emp-name" placeholder="Your Name" autocomplete="off" />
+            </div>
+            <div class="form-group">
+              <label for="emp-id">Employee ID</label>
+              <input type="text" id="emp-id" placeholder="e.g. 4821" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date-start">Start Date</label>
+              <input type="date" id="date-start" />
+            </div>
+            <div class="form-group">
+              <label for="date-end">End Date</label>
+              <input type="date" id="date-end" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="leave-type">Leave Type</label>
+            <select id="leave-type">
+              <option value="">— Select —</option>
+              <option>Vacation</option>
+              <option>Sick Leave</option>
+              <option>Personal Day</option>
+              <option>Bereavement</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="reason">Reason / Notes</label>
+            <textarea id="reason" rows="3" placeholder="Please describe your reason for the request..."></textarea>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" id="agree" />
+              I acknowledge that this request is subject to manager approval and company policy.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submit-btn">Submit Request</button>
+        </form>
+      </div>
+
+      <div class="card history-card">
+        <h2 class="card-title">Request History</h2>
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Date Submitted</th>
+              <th>Leave Dates</th>
+              <th>Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>03/12/2025</td>
+              <td>04/01 – 04/05</td>
+              <td>Vacation</td>
+              <td><span class="status pending">Pending</span></td>
+            </tr>
+            <tr>
+              <td>01/08/2025</td>
+              <td>01/20 – 01/20</td>
+              <td>Personal Day</td>
+              <td><span class="status denied">Denied</span></td>
+            </tr>
+            <tr>
+              <td>11/15/2024</td>
+              <td>11/28 – 11/29</td>
+              <td>Vacation</td>
+              <td><span class="status pending">Under Review</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      &copy; 2025 Abby's App — Human Resources Portal v3.2.1 &nbsp;|&nbsp;
+      <a href="#" id="footer-help">Help</a> &nbsp;|&nbsp;
+      <a href="#" id="footer-contact">Contact HR</a>
+    </footer>
+  </div>
+
+  <script src="abbysapp.js"></script>
+</body>
+</html>
