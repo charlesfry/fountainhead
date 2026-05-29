@@ -1,3 +1,7 @@
+// Sync employee ID field from header
+const empId = document.getElementById("header-emp-id").textContent;
+document.getElementById("emp-id").value = empId;
+
 // Set default dates to today
 const today = new Date().toISOString().split("T")[0];
 document.getElementById("date-start").value = today;
