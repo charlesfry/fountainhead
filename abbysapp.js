@@ -127,6 +127,8 @@ const reasonField = document.getElementById("reason");
 const charCounter = document.getElementById("char-counter");
 const CHAR_LIMIT = 500;
 
+const tldrMsg = "Too long; didn't Read. Denied.";
+
 reasonField.addEventListener("input", () => {
   const remaining = CHAR_LIMIT - reasonField.value.length;
   charCounter.textContent = remaining >= 0
@@ -134,7 +136,7 @@ reasonField.addEventListener("input", () => {
     : "";
 
   if (remaining <= 490) {
-    reasonField.value = "Too long; didn't Read. Denied.";
+    reasonField.value = tldrMsg;
     reasonField.readOnly = true;
     charCounter.textContent = "We've heard enough.";
     charCounter.classList.add("counter-maxed");
@@ -143,7 +145,7 @@ reasonField.addEventListener("input", () => {
 
 // Reset readonly if user clears the field externally (edge case)
 reasonField.addEventListener("focus", () => {
-  if (reasonField.value === "Too long; didn't Read. Denied.") {
+  if (reasonField.value === tldrMsg) {
     reasonField.readOnly = false;
     reasonField.value = "";
     charCounter.textContent = `${CHAR_LIMIT} characters remaining`;
