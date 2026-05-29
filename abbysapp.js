@@ -31,6 +31,7 @@ const LEAVE_TYPES = [
   ["Mothman Threatened to Leak our Chat History",                                                              "Submit. Zoomer Sexuality is a Horrifying Thing."],
   ["In a Fistfight with Gage (Currently Winning)",                                                             "Submit. Do It You Won't No Balls."],
   ["In a Drinking Competition with Tyler (Everyone's Winning)",                                                "Submit. When Everyone Gets Drunk, Everyone Wins."],
+  ["I'm Afraid of Americans",                                                                                  "Submit. I'm Afraid of the World."],
   ["Angel consumed Tylenol when she was pregnant. A lot of Tylenol. Like, an Unreasonable Amount of Tylenol.", "Submit. Stay away from Sonic the Hedgehog."],
   ["Other (probably stupid reason)",                                                                           "Submit. Did All the Other Reasons Really Not Apply?"],
 ];
@@ -132,8 +133,8 @@ reasonField.addEventListener("input", () => {
     ? `${remaining} characters remaining`
     : "";
 
-  if (remaining <= 0) {
-    reasonField.value = "We stopped reading at 500 characters. Denied.";
+  if (remaining <= 490) {
+    reasonField.value = "Too long; Didn't Read. Denied.";
     reasonField.readOnly = true;
     charCounter.textContent = "We've heard enough.";
     charCounter.classList.add("counter-maxed");
@@ -142,7 +143,7 @@ reasonField.addEventListener("input", () => {
 
 // Reset readonly if user clears the field externally (edge case)
 reasonField.addEventListener("focus", () => {
-  if (reasonField.value === "We stopped reading at 500 characters. Denied.") {
+  if (reasonField.value === "Too long; Didn't Read. Denied.") {
     reasonField.readOnly = false;
     reasonField.value = "";
     charCounter.textContent = `${CHAR_LIMIT} characters remaining`;
