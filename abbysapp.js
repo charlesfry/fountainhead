@@ -26,8 +26,76 @@ const ERRORS = [
 
 let errorIndex = 0;
 
+const DENIAL_LABELS = [
+  "Denied",
+  "Rejected",
+  "Absolutely Not",
+  "Fuck Off",
+  "Nice Try",
+  "LOL No",
+  "Dream On",
+  "Not a Chance",
+  "Hard Pass",
+];
+
+const requestHistory = [];
+
+function formatDate(isoStr) {
+  if (!isoStr) return "—";
+  const [y, m, d] = isoStr.split("-");
+  return `${m}/${d}/${y}`;
+}
+
+function randomDenialLabel() {
+  return DENIAL_LABELS[Math.floor(Math.random() * DENIAL_LABELS.length)];
+}
+
+function addToHistory() {
+  const startVal = document.getElementById("date-start").value;
+  const endVal   = document.getElementById("date-end").value;
+  const type     = document.getElementById("leave-type").value || "—";
+  const now      = new Date();
+  const submitted = `${String(now.getMonth()+1).padStart(2,"0")}/${String(now.getDate()).padStart(2,"0")}/${now.getFullYear()}`;
+
+  requestHistory.unshift({
+    submitted,
+    dates: `${formatDate(startVal)} – ${formatDate(endVal)}`,
+    type,
+    label: randomDenialLabel(),
+  });
+
+  if (requestHistory.length > 3) requestHistory.length = 3;
+  renderHistory();
+}
+
+function renderHistory() {
+  const tbody = document.getElementById("history-body");
+  const empty = document.getElementById("history-empty");
+
+  // remove all rows except the empty placeholder
+  Array.from(tbody.querySelectorAll("tr:not(#history-empty)")).forEach(r => r.remove());
+
+  if (requestHistory.length === 0) {
+    empty.style.display = "";
+    return;
+  }
+  empty.style.display = "none";
+
+  requestHistory.forEach(req => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${req.submitted}</td>
+      <td>${req.dates}</td>
+      <td>${req.type}</td>
+      <td><span class="status denied">${req.label}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
 document.getElementById("pto-form").addEventListener("submit", function (e) {
   e.preventDefault();
+  addToHistory();
   ERRORS[errorIndex % ERRORS.length]();
   errorIndex++;
 });
