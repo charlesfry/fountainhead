@@ -54,6 +54,14 @@
     </div>
   </div>
 
+  <!-- Spinner overlay -->
+  <div id="spinner-overlay" class="spinner-overlay hidden">
+    <div class="spinner-box">
+      <div class="spinner"></div>
+      <p id="spinner-msg">Consulting the oracle…</p>
+    </div>
+  </div>
+
   <!-- Confirmation toast (hidden by default) -->
   <div id="toast" class="toast hidden"></div>
 
@@ -112,6 +120,7 @@
               <option>Explosive Diarrhea</option>
               <option>Piercing Someone's Weiner Today</option>
               <option>Drawing a Mushroom</option>
+              <option>I've Committed Some Light Treason</option>
               <option>Go Fuck Yourself, John (insert giggle here)</option>
               <option>I Made Plans to be Somewhere in, Like, 3 Weeks and I Feel Overwhelmed by the Responsibility</option>
               <option>I Turned Myself into a Pickle</option>
@@ -128,6 +137,7 @@
           <div class="form-group">
             <label for="reason">Reason / Notes</label>
             <textarea id="reason" rows="3" placeholder="Be very detailed. We definitely care about your stupid lazy life decisions."></textarea>
+            <span id="char-counter" class="char-counter">500 characters remaining</span>
           </div>
 
           <div class="form-group checkbox-group">
@@ -164,7 +174,8 @@
     <footer class="app-footer">
       &copy; 2025 Abby's App — Human Resources Portal v3.2.1 &nbsp;|&nbsp;
       <a href="#" id="footer-help">Help</a> &nbsp;|&nbsp;
-      <a href="#" id="footer-contact">Contact HR</a>
+      <a href="#" id="footer-contact">Contact HR</a> &nbsp;|&nbsp;
+      <a href="." target="_blank" rel="noopener">Employee Satisfaction Survey</a>
     </footer>
   </div>
 
