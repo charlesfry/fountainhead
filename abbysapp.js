@@ -127,7 +127,7 @@ const reasonField = document.getElementById("reason");
 const charCounter = document.getElementById("char-counter");
 const CHAR_LIMIT = 500;
 
-const tldrMsg = "Too long; didn't Read. Denied.";
+const tldrMsg = "Too long; didn't read. Denied.";
 
 reasonField.addEventListener("input", () => {
   const remaining = CHAR_LIMIT - reasonField.value.length;
