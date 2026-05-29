@@ -1,3 +1,8 @@
+// Set default dates to today
+const today = new Date().toISOString().split("T")[0];
+document.getElementById("date-start").value = today;
+document.getElementById("date-end").value = today;
+
 // Cycle through error responses on each submit
 const ERRORS = [
   cannotProcess,
