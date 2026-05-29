@@ -17,6 +17,7 @@ const LEAVE_TYPES = [
   ["Need More Milk",                                                                                           "Submit. Drink Water."],
   ["Soren Ate a Battery",                                                                                      "Submit. Technically that Counts as 5-Hour Energy."],
   ["Ollie Ate a Battery",                                                                                      "Submit. Dammit, Ollie."],
+  ["I Ate a Battery",                                                                                          "WHY ARE YOU ALL EATING BATTERIES?!?!?!?"],
   ["Getting Drunk at Bowser's with my Aunt",                                                                   "Submit. Get me a Long-Island Iced Tea."],
   ["Explosive Diarrhea",                                                                                       "Submit. Please Don't."],
   ["Piercing Someone's Weiner Today",                                                                          "Submit. Don't Miss."],
@@ -135,7 +136,7 @@ reasonField.addEventListener("input", () => {
     ? `${remaining} characters remaining`
     : "";
 
-  if (remaining <= 490) {
+  if (reasonField.value.length > 10) {
     reasonField.value = tldrMsg;
     reasonField.readOnly = true;
     charCounter.textContent = "We've heard enough.";
